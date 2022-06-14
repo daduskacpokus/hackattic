@@ -6,22 +6,14 @@ services:
       - POSTGRES_PASSWORD=secretpassword
     volumes:
       - ./pgdata:/var/lib/postgresql/data
-  endpoint-one:
-    image: python:3.7-alpine
-    volumes:
-      - ./endpoints/one
-    command: python -m http.server 8000 --directory /endpoint
+  endpoints:
+    build: ./endpoints
+    container_name: endpoints
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
     ports:
-      - 8000:8000
-    networks:
-      default:
-  endpoint-two:
-    image: python:3.7-alpine
-    volumes:
-      - ./endpoints/two
-    command: python -m http.server 9000 --directory /endpoint
-    ports:
-      - 9000:9000
+      - 5000:5000
     networks:
       default:
   backuprestore:
