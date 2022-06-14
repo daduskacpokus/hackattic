@@ -1,12 +1,13 @@
 version: '2'
 services:
   postgres:
-    image: postgres:14-alpine
+    image: bitnami/postgresql:14.3.0-debian-11-r4
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secretpassword
+      - POSTGRESQL_DATABASE=hackattic
+      - POSTGRESQL_USERNAME=postgres
+      - POSTGRESQL_PASSWORD=secretpassword
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./pgdata/my_init_script.sh:/docker-entrypoint-initdb.d/my_init_script.sh
   endpoints:
     build: ./endpoints
     container_name: endpoints
@@ -19,6 +20,6 @@ services:
       default:
   backuprestore:
     image: python:3.7-alpine
-    command: python
+    command: /bin/sh -c "while true; do sleep 365d; done"
 networks:
   default:
