@@ -1,0 +1,31 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=secretpassword
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+  endpoint-one:
+    image: python:3.7-alpine
+    volumes:
+      - ./endpoints/one
+    command: python -m http.server 8000 --directory /endpoint
+    ports:
+      - 8000:8000
+    networks:
+      default:
+  endpoint-two:
+    image: python:3.7-alpine
+    volumes:
+      - ./endpoints/two
+    command: python -m http.server 9000 --directory /endpoint
+    ports:
+      - 9000:9000
+    networks:
+      default:
+  backuprestore:
+    image: python:3.7-alpine
+    command: python
+networks:
+  default:
