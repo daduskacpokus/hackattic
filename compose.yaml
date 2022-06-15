@@ -8,10 +8,13 @@ services:
       - POSTGRESQL_PASSWORD=secretpassword
     volumes:
       - ./pgdata/my_init_script.sh:/docker-entrypoint-initdb.d/my_init_script.sh
+    networks:
+      default:
   endpoints:
     build: ./endpoints
     container_name: endpoints
     environment:
+      - PGPASSWORD=secretpassword
       - FLASK_ENV=development
       - FLASK_APP=app.py
     ports:
