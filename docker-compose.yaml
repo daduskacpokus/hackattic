@@ -10,6 +10,14 @@ services:
       - ./pgdata/my_init_script.sh:/docker-entrypoint-initdb.d/my_init_script.sh
     networks:
       backend:
+  db2restore:
+    image: bitnami/postgresql:14.3.0-debian-11-r4
+    environment:
+      - POSTGRESQL_DATABASE=${PGDATABASE}
+      - POSTGRESQL_USERNAME=${PGUSER}
+      - POSTGRESQL_PASSWORD=${PGPASSWORD}
+    networks:
+      backend:
   endpoints:
     build: ./endpoints
     container_name: endpoints
@@ -25,7 +33,7 @@ services:
     networks:
       backend:
   backuprestore:
-    image: python:3.7-alpine
+    image: alpine:3.16.0
     environment:
       - PGPASSWORD=${PGPASSWORD}
       - PGDATABASE=${PGDATABASE}

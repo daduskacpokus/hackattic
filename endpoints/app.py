@@ -15,7 +15,7 @@ def do_get():
       encoded_string = ""
       with open("backup.gz", "rb") as tgz_file:
           encoded_string = base64.b64encode(tgz_file.read())
-    return "{'dump': '" + encoded_string.decode('utf-8') + "'}"
+    return '{ "dump": "' + encoded_string.decode('utf-8') + '" }'
   else:
     abort(404)
   
