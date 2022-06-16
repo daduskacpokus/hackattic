@@ -1,6 +1,5 @@
 #!/bin/sh
-export PGPASSWORD=$POSTGRESQL_PASSWORD # Set appropriately
-psql -Upostgres $POSTGRESQL_DATABASE <<EOF
+PGPASSWORD=$POSTGRESQL_PASSWORD psql -Upostgres $POSTGRESQL_DATABASE <<EOF
 CREATE TABLE IF NOT EXISTS SSN (
     id          integer PRIMARY KEY,
     alive       integer NOT NULL

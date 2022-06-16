@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   db2backup:
     image: bitnami/postgresql:14.3.0-debian-11-r4
@@ -9,7 +9,7 @@ services:
     volumes:
       - ./pgdata/my_init_script.sh:/docker-entrypoint-initdb.d/my_init_script.sh
     networks:
-      default:
+      backend:
   endpoints:
     build: ./endpoints
     container_name: endpoints
@@ -21,11 +21,21 @@ services:
       - FLASK_ENV=${FLASK_ENV}
       - FLASK_APP=${FLASK_APP}
     ports:
-      - 5000:5000
+      - ${FLASK_PORT}:${FLASK_PORT}
     networks:
-      default:
+      backend:
   backuprestore:
     image: python:3.7-alpine
-    command: /bin/sh -c "while true; do sleep 365d; done"
+    environment:
+      - PGPASSWORD=${PGPASSWORD}
+      - PGDATABASE=${PGDATABASE}
+      - PGUSER=${PGUSER}
+      - FLASK_PORT:${FLASK_PORT}
+    command: ["/backupandrestore.sh"]
+    networks:
+      backend:
+    volumes:
+      - ./backupandrestore.sh:/backupandrestore.sh
+
 networks:
-  default:
+  backend:
