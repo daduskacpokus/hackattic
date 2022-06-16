@@ -1,6 +1,6 @@
 version: '2'
 services:
-  postgres:
+  db2backup:
     image: bitnami/postgresql:14.3.0-debian-11-r4
     environment:
       - POSTGRESQL_DATABASE=hackattic
@@ -15,6 +15,7 @@ services:
     container_name: endpoints
     environment:
       - PGPASSWORD=secretpassword
+      - GZIP=-Z9
       - FLASK_ENV=development
       - FLASK_APP=app.py
     ports:
