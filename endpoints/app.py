@@ -11,7 +11,7 @@ def do_get():
   token = request.args.get('access_token')
   if (token == "x"):
     with gzip.open('backup.gz', 'wb') as f:
-      pg_dump('-h', 'db2backup', '-U', 'postgres', '-d', 'hackattic', _out=f)
+      pg_dump('-h', 'db2backup', _out=f)
       encoded_string = ""
       with open("backup.gz", "rb") as tgz_file:
           encoded_string = base64.b64encode(tgz_file.read())
