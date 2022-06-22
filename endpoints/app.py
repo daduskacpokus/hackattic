@@ -25,7 +25,7 @@ def do_post():
   if (content_type == 'application/json'):
     data = request.json
     if (data['access_token'] == "x"):
-      return 'Hello from Server'
+      return data['alive_ssns']
     else:
       abort(404)
   else:
