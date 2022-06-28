@@ -1,7 +1,7 @@
 ### So, here is what you need to start
 
 ```
-docker-compose up
+docker-compose up --build
 
 docker-compose logs -f backuprestore
 ```
